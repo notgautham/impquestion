@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Effect</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .typing-text {
+            font-size: 2rem;
+            border-right: 2px solid black;
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+            cursor: pointer;
+            width: fit-content;
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: fit-content; }
+        }
+        @keyframes erasing {
+            from { width: fit-content; }
+            to { width: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="typing-text" onclick="location.href='next.html'"></div>
+
+    <script>
+        const words = ["beautiful 😏", "cutie 😏", "paglu 😏", "patootie 😏", "princess 😏"];
+        let index = 0;
+        const typingText = document.querySelector('.typing-text');
+
+        function typeEffect(word) {
+            typingText.textContent = "Hey " + word;
+            typingText.style.borderRight = '2px solid black';
+            typingText.style.animation = `typing 2s steps(${word.length + 4}, end) forwards`;
+            
+            setTimeout(() => {
+                typingText.style.animation = `erasing 2s steps(${word.length + 4}, end) forwards`;
+            }, 3000);
+        }
+
+        function cycleWords() {
+            typeEffect(words[index]);
+            index = (index + 1) % words.length;
+            setTimeout(cycleWords, 2000);
+        }
+
+        cycleWords();
+    </script>
+</body>
+</html>

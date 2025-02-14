@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Question</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            position: relative;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(6, auto);
+            grid-template-rows: repeat(10, auto);
+            gap: 10px;
+            position: relative;
+        }
+        .question-text {
+            font-size: 2rem;
+            border-right: 2px solid black;
+            white-space: pre-line;
+            overflow: hidden;
+            text-align: center;
+            z-index: 2;
+            background-color: #f4f4f4;
+            padding: 10px;
+            grid-column: span 6;
+            justify-self: center;
+        }
+        .options {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: contents;
+        }
+        .option-button {
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background-color: #ff4d4d;
+            color: white;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .option-button:hover {
+            background-color: #ff1a1a;
+        }
+        .no-button {
+            background-color: #ccc;
+            color: black;
+            font-size: 1rem;
+            padding: 8px 16px;
+            border-radius: 3px;
+        }
+        .no-button:hover {
+            background-color: #bbb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="question-text" id="question-text"></div>
+        <div class="options" id="options"></div>
+    </div>
+
+    <script>
+        const text = "Will you be my valentine? 😊";
+        const questionText = document.getElementById('question-text');
+        const options = document.getElementById('options');
+        let i = 0;
+
+        function typeEffect() {
+            if (i < text.length) {
+                questionText.innerHTML += text[i];
+                i++;
+                setTimeout(typeEffect, 150);
+            } else {
+                questionText.style.borderRight = 'none';
+                setTimeout(() => {
+                    generateButtons();
+                    options.style.display = 'contents';
+                    options.style.opacity = '1';
+                }, 500);
+            }
+        }
+
+        function generateButtons() {
+            let buttons = [];
+            let noIndex = Math.floor(Math.random() * 60);
+            for (let j = 0; j < 60; j++) {
+                let button = document.createElement("button");
+                button.classList.add("option-button");
+                if (j === noIndex) {
+                    button.classList.add("no-button");
+                    button.innerText = "No";
+                    button.onclick = () => window.location.href = 'no.html';
+                } else {
+                    button.innerText = "Yes";
+                    button.onclick = () => window.location.href = 'yes.html';
+                }
+                buttons.push(button);
+            }
+            buttons.forEach(btn => options.appendChild(btn));
+        }
+
+        typeEffect();
+    </script>
+</body>
+</html>
